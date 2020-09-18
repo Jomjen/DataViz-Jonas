@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Examples/Personal Data/SampleScene.unity
+- path: Assets/Examples/GL Shapes/2.4 TranslationRotationScale.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0

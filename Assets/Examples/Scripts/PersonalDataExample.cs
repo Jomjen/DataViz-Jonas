@@ -5,8 +5,10 @@ using UnityEngine;
 public class PersonalDataExample : MonoBehaviour
 {
     public string dataCsvFileName = "";
+    public GameObject textObjectPrefab = null;
 
     List<Person> _people = new List<Person>();
+    Dictionary<int, GameObject> _mainObjectLookup = new Dictionary<int, GameObject>();
     int _ageMin, _ageMax;
 
     void Awake()
@@ -24,6 +26,10 @@ public class PersonalDataExample : MonoBehaviour
 
         // Represent.
         Represent();
+
+        //Interaction
+        AddInteraction();
+
 
         Debug.Log("_people.count: " + _people.Count);
     }
@@ -61,6 +67,12 @@ public class PersonalDataExample : MonoBehaviour
                         // Had covid
                         person.hadCovid = fieldContent.ToLower() == "yes";
                         break;
+                    // case 7:
+                        // Postnummer
+                        // int postnummer;
+                        // bool parseSucceeded = int.TryParse(fieldContent, out postnummer);
+                        // if (parseSucceeded) person.postNumber = postnummer;
+                        // break;
                 }
             }
             // Parse covid relation level.
@@ -70,9 +82,9 @@ public class PersonalDataExample : MonoBehaviour
                 bool familyHadCovid = fieldContents[4].ToLower() == "yes";
                 bool familyOrFriendsHadCovid = fieldContents[5].ToLower() == "yes";
                 bool anyoneHadCovid = fieldContents[6].ToLower() == "yes";
-                if (anyoneHadCovid) covidRelationLevel = Person.CovidRelationLevel.Anyone;
+                if (familyHadCovid) covidRelationLevel = Person.CovidRelationLevel.Family;
                 else if (familyOrFriendsHadCovid) covidRelationLevel = Person.CovidRelationLevel.FamilyOrFriend;
-                else if (familyOrFriendsHadCovid) covidRelationLevel = Person.CovidRelationLevel.Family;
+                else if (anyoneHadCovid) covidRelationLevel = Person.CovidRelationLevel.Anyone;
             }
             person.covidRelationLevel = covidRelationLevel;
 
@@ -110,24 +122,55 @@ public class PersonalDataExample : MonoBehaviour
 
     void Represent()
     {
+        // sort by age
+        _people.Sort( (a, b ) => a.age - b.age );
+
+        // create elements
+
         for( int p = 0; p < _people.Count; p++)
         {
             Person person = _people[p];
 
-            float x = p;
-            float height = Mathf.InverseLerp( _ageMin, _ageMax, person.age) * 10;
-            float y = height * 0.5f;
-            float width = 0.9f;
+            float mainX = p;
+            float barHeight = Mathf.InverseLerp( 0, _ageMax, person.age) * 10; //rescale to fit between 0 and 10 and define 10 as the max age
+            float barY = barHeight * 0.5f;
+            float barwidth = 0.9f;
 
             GameObject mainObject = new GameObject(person.id + " " + person.firstName );
             mainObject.transform.SetParent(transform);
-            mainObject.transform.localPosition = new Vector3(x, y, 0);
+            mainObject.transform.localPosition = new Vector3(mainX, 0, 0);
 
             GameObject barObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
             barObject.transform.SetParent(mainObject.transform);
-            barObject.transform.localPosition = Vector3.zero;
-            barObject.transform.localScale = new Vector3(width, height, 1);
+            barObject.transform.localPosition = new Vector3(0, barY, 0);
+            barObject.transform.localScale = new Vector3(barwidth, barHeight, 1);
+
+            _mainObjectLookup.Add(person.id, mainObject);
         }
     }
+
+    void AddInteraction()
+    {
+
+        foreach( Person person in _people )
+        {
+            GameObject mainObject = _mainObjectLookup[person.id];
+
+            GameObject textObject = Instantiate(textObjectPrefab); //make a copy of original dummy
+            textObject.transform.SetParent(mainObject.transform);
+            textObject.SetActive(true);
+            textObject.transform.localPosition = Vector3.zero;
+            textObject.transform.Rotate(0, 0, -45);
+            textObject.GetComponent<TextMesh>().text = person.firstName;
+
+            Collider barCollider = mainObject.GetComponentInChildren<Collider>();
+            TextRevealer textRevealer = barCollider.gameObject.AddComponent<TextRevealer>();  //instantiate a script and add it to colliders gameObject.
+            textRevealer.textObject = textObject;
+            
+        }
+    }
+
+
+
 
 }
