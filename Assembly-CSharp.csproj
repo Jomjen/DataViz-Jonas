@@ -51,24 +51,19 @@
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>2020.1.6f1</UnityVersion>
   </PropertyGroup>
-  <PropertyGroup>
-    <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <UnityProjectGenerator>Unity/VSTU</UnityProjectGenerator>
-    <UnityProjectType>Game:1</UnityProjectType>
-    <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
-    <UnityVersion>2020.1.6f1</UnityVersion>
-  </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Examples\Scripts\Person.cs" />
-    <Compile Include="Assets\Examples\Scripts\PersonalDataExample.cs" />
-    <Compile Include="Assets\Examples\Scripts\TextRevealer.cs" />
-    <Compile Include="Assets\Examples\GL Shapes\Scripts\GLPrimitivesExample.cs" />
-    <Compile Include="Assets\Examples\GL Shapes\Scripts\GLOscillationExample.cs" />
-    <Compile Include="Assets\Examples\GL Shapes\Scripts\GLTranslationExample.cs" />
     <Compile Include="Assets\Examples\GL Shapes\Scripts\GLTranslationRotationScaleExample.cs" />
+    <Compile Include="Assets\Examples\Scripts\Person.cs" />
+    <Compile Include="Assets\Examples\GL Shapes\Scripts\GLTranslationExample.cs" />
+    <Compile Include="Assets\Examples\GL Shapes\Scripts\GLOscillationExample.cs" />
+    <Compile Include="Assets\Examples\Scripts\TextRevealer.cs" />
+    <Compile Include="Assets\Examples\Scripts\PersonalDataExample.cs" />
+    <Compile Include="Assets\Examples\GL Shapes\Scripts\GLPrimitivesExample.cs" />
+    <Compile Include="Assets\Examples\GL Shapes\Scripts\GLColourExample.cs" />
+    <Compile Include="Assets\Assignments\Procedural Icon\Scripts\ProceduralIcon.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Examples\_Shared\Resources\GLShader.shader" />
+     <None Include="Assets\Examples\_Shared\Resources\GLShader.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.1.6f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -631,9 +626,9 @@
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup></ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="GenerateTargetFrameworkMonikerAttribute" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
